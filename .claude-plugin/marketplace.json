@@ -1,0 +1,15 @@
+{
+  "name": "junstack",
+  "description": "Agent workflow skills for Claude Code and Cursor.",
+  "owner": {
+    "name": "kevinleo-00",
+    "url": "https://github.com/kevinleo-00"
+  },
+  "plugins": [
+    {
+      "name": "junstack",
+      "source": "./",
+      "description": "/engineer: requirements to design approval to parallel TDD implementation to verified diff, on top of Matt Pocock's skills, pstack, and Plannotator."
+    }
+  ]
+}

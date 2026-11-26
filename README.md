@@ -1,6 +1,6 @@
-# jstack
+# junstack
 
-Personal agent skills for Claude Code and Cursor.
+Agent skills for Claude Code and Cursor.
 
 ## /engineer
 
@@ -34,12 +34,41 @@ You don't need to run `/setup-matt-pocock-skills` per repo: `/engineer` writes t
 
 ### Install
 
-```sh
-./install.sh             # symlinks ~/.claude/skills/engineer -> this repo
-./install.sh --uninstall # removes the symlink, only if it points here
+Pick one. Installing more than one way gives you two copies of the skill.
+
+**Claude Code plugin.** The command becomes `/junstack:engineer`.
+
+```
+/plugin install junstack --marketplace kevinleo-00/junstack
 ```
 
-Cursor loads skills from `~/.claude/skills`, so one install covers both. Updating is `git pull`. The installer never overwrites an `engineer` skill it didn't create.
+On Claude Code versions before 2.1.275, use two steps: `/plugin marketplace add kevinleo-00/junstack`, then `/plugin install junstack@junstack`.
+
+**skills CLI** (Claude Code, Cursor, and other agents):
+
+```sh
+npx skills add kevinleo-00/junstack -g
+```
+
+**Clone and link.** Best if you want to edit the skill: `git pull` updates it everywhere. Cursor also loads `~/.claude/skills`, so one link covers both harnesses.
+
+```sh
+git clone https://github.com/kevinleo-00/junstack.git
+cd junstack && ./install.sh   # symlinks ~/.claude/skills/engineer -> this clone
+./install.sh --uninstall      # removes the symlink, only if it points here
+```
+
+The installer never overwrites an `engineer` skill it didn't create.
+
+### Permissions
+
+`/engineer` reads its own templates and the SKILL.md files of the skills it builds on. To avoid a permission prompt on each read (and blocked reads in `claude -p`), add these to `permissions.allow` in `~/.claude/settings.json`:
+
+```json
+"Read(~/.claude/skills/**)",
+"Read(~/.claude/plugins/cache/**)",
+"Bash(~/.claude/skills/engineer/scripts/find-skill.sh:*)"
+```
 
 ### Test
 

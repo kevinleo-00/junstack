@@ -157,6 +157,33 @@ test_worker_branches_dont_nest_under_integration_branch() {
   ! grep -rnE 'engineer/<slug>/' "$ROOT/skills/engineer"
 }
 
+test_plugin_manifest_lists_existing_skills() {
+  python3 -I - "$ROOT/.claude-plugin/plugin.json" "$ROOT" <<'EOF'
+import json, os, sys
+m = json.load(open(sys.argv[1]))
+assert m["name"] == "junstack", m["name"]
+assert m["skills"], "no skills listed"
+for s in m["skills"]:
+    assert os.path.isfile(os.path.join(sys.argv[2], s, "SKILL.md")), s
+EOF
+}
+
+test_marketplace_points_at_plugin() {
+  python3 -I - "$ROOT/.claude-plugin/marketplace.json" "$ROOT" <<'EOF'
+import json, os, sys
+m = json.load(open(sys.argv[1]))
+assert m["name"] and m["owner"]["name"]
+assert "junstack" in [p["name"] for p in m["plugins"]]
+for p in m["plugins"]:
+    assert os.path.isfile(os.path.join(sys.argv[2], p["source"], ".claude-plugin", "plugin.json")), p
+EOF
+}
+
+test_no_personal_paths_or_emails_in_published_files() {
+  ! git -C "$ROOT" ls-files -z --cached --others --exclude-standard |
+    xargs -0 grep -nE '/Users/[a-z]|@gmail\.com' --
+}
+
 test_scripts_are_valid_bash() {
   bash -n "$FIND" && bash -n "$INSTALL"
 }

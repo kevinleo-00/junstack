@@ -1,0 +1,10 @@
+{
+  "name": "junstack",
+  "version": "0.1.0",
+  "description": "/engineer: one command from requirements interview to design approval, parallel TDD implementation in worktrees, adversarial verification, and final diff review. Builds on Matt Pocock's skills, pstack, and Plannotator.",
+  "author": { "name": "kevinleo-00", "url": "https://github.com/kevinleo-00" },
+  "repository": "https://github.com/kevinleo-00/junstack",
+  "license": "MIT",
+  "keywords": ["engineering", "workflow", "tdd", "worktrees", "design-review", "orchestration"],
+  "skills": ["./skills/engineer"]
+}
